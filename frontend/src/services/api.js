@@ -1,30 +1,17 @@
 import axios from "axios";
 
 const API = axios.create({
-
-  baseURL:
-    "https://team-task-tracker-jwcz.onrender.com/api"
-
+  baseURL: "https://team-task-tracker-jwcz.onrender.com/api",
 });
 
-API.interceptors.request.use(
+API.interceptors.request.use((req) => {
+  const token = localStorage.getItem("token");
 
-  (req) => {
-
-    const token =
-      localStorage.getItem("token");
-
-    if (token) {
-
-      req.headers.Authorization =
-        `Bearer ${token}`;
-
-    }
-
-    return req;
-
+  if (token) {
+    req.headers.Authorization = `Bearer ${token}`;
   }
 
-);
+  return req;
+});
 
 export default API;
