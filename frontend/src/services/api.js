@@ -1,20 +1,30 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL
+
+  baseURL:
+    "https://team-task-tracker-jwcz.onrender.com/api"
+
 });
 
-API.interceptors.request.use((req) => {
+API.interceptors.request.use(
 
-  const token = localStorage.getItem("token");
+  (req) => {
 
-  if (token) {
-    req.headers.Authorization =
-      `Bearer ${token}`;
+    const token =
+      localStorage.getItem("token");
+
+    if (token) {
+
+      req.headers.Authorization =
+        `Bearer ${token}`;
+
+    }
+
+    return req;
+
   }
 
-  return req;
-
-});
+);
 
 export default API;
