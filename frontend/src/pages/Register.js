@@ -43,12 +43,21 @@ function Register() {
     } catch (error) {
 
       console.log(error);
-
-      alert(
-        error.response?.data?.message ||
-        "Registration failed"
-      );
-
+    
+      if (error.response) {
+    
+        alert(
+          typeof error.response.data === "string"
+            ? error.response.data
+            : error.response.data.message
+        );
+    
+      } else {
+    
+        alert("Registration failed");
+    
+      }
+    
     }
 
   };
