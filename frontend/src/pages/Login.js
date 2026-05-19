@@ -16,8 +16,7 @@ function Login() {
       });
 
       localStorage.setItem("token", res.data.token);
-      window.location.href =
-      "/dashboard";
+      
 
       alert("Login successful");
 
@@ -55,6 +54,7 @@ function Login() {
 <Link to="/register">
   Go to Register
 </Link>
+
 <Link to="/forgot-password">
   Forgot Password?
 </Link>
