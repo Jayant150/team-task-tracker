@@ -30,34 +30,41 @@ function Login() {
 
   return (
     <div>
+  
       <h2>Login</h2>
-
+  
       <input
         type="email"
         placeholder="Enter email"
         onChange={(e) => setEmail(e.target.value)}
       />
-
+  
       <br /><br />
-
+  
       <input
         type="password"
         placeholder="Enter password"
         onChange={(e) => setPassword(e.target.value)}
       />
-
+  
       <br /><br />
-
-      <button onClick={handleLogin}>Login</button>
+  
+      <button onClick={handleLogin}>
+        Login
+      </button>
+  
       <br /><br />
-
-<Link to="/register">
-  Go to Register
-</Link>
-
-<Link to="/forgot-password">
-  Forgot Password?
-</Link>
+  
+      <Link to="/register">
+        Go to Register
+      </Link>
+  
+      <br /><br />
+  
+      <Link to="/forgot-password">
+        Forgot Password?
+      </Link>
+  
     </div>
   );
 }
