@@ -16,12 +16,24 @@ router.post(
 
       console.log(req.body);
 
-      const task = await Task.create({
-        ...req.body,
+      const task = new Task({
+        title: req.body.title,
+        status: req.body.status,
+        priority: req.body.priority,
+        dueDate: req.body.dueDate,
+        project: req.body.project || null,
+        assignedTo: req.body.assignedTo || null,
         createdBy: req.user.id
       });
 
-      res.json(task);
+      await task.save();
+
+      const populatedTask =
+        await Task.findById(task._id)
+          .populate("project")
+          .populate("assignedTo");
+
+      res.json(populatedTask);
 
     } catch (err) {
 
@@ -47,10 +59,54 @@ router.get(
 
       const tasks = await Task.find({
         createdBy: req.user.id
-      }).populate("project")
+      })
+      .populate("project")
       .populate("assignedTo");
 
       res.json(tasks);
+
+    } catch (err) {
+
+      console.log(err);
+
+      res.status(500).json({
+        message: err.message
+      });
+
+    }
+
+  }
+);
+
+
+// UPDATE TASK
+router.put(
+  "/:id",
+  authMiddleware,
+  async (req, res) => {
+
+    try {
+
+      const updatedTask =
+        await Task.findByIdAndUpdate(
+          req.params.id,
+          {
+            title: req.body.title,
+            status: req.body.status,
+            priority: req.body.priority,
+            dueDate: req.body.dueDate,
+            project: req.body.project || null,
+            assignedTo:
+              req.body.assignedTo || null
+          },
+          {
+            new: true
+          }
+        )
+        .populate("project")
+        .populate("assignedTo");
+
+      res.json(updatedTask);
 
     } catch (err) {
 
@@ -94,33 +150,6 @@ router.delete(
 
   }
 );
-// UPDATE TASK
-router.put(
-  "/:id",
-  authMiddleware,
-  async (req, res) => {
 
-    try {
 
-      const updatedTask =
-        await Task.findByIdAndUpdate(
-          req.params.id,
-          req.body,
-          { new: true }
-        );
-
-      res.json(updatedTask);
-
-    } catch (err) {
-
-      console.log(err);
-
-      res.status(500).json({
-        message: err.message
-      });
-
-    }
-
-  }
-);
 module.exports = router;
